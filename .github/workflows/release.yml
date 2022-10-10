@@ -30,7 +30,7 @@ jobs:
           docker rm -f temp &>/dev/null && echo 'Removed old container'
 
           # Create a new temp container from the chassis
-          docker create --name temp -t peterkneale.microservices.chassis
+          docker create --name temp -t peterkneale/peterkneale.microservices.chassis
 
           # Copy the service to the service folder in the temp container 
           docker cp ./bin/Release/net6.0/ temp://service
