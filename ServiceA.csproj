@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <OutputType>Library</OutputType>
+        <!-- Nuget properties -->
+        <PackageId>ServiceA</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Demo</Authors>
+        <Company>Demo</Company>
+        <!--
+        The CopyLocalLockFileAssemblies property is useful for plugin projects that have dependencies on other libraries. 
+        If you set this property to true, any NuGet package dependencies are copied to the output directory. 
+        That means you can use the output of dotnet build to run your plugin on any machine.
+        -->
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <EnablePackageValidation>true</EnablePackageValidation>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
+        <PackageReference Include="Grpc.AspNetCore.Server" Version="2.49.0" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Chassis.Abstractions\Chassis.Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="settings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Protobuf Include="Api\ServiceA.proto" GrpcServices="Server" />
+    </ItemGroup>
+</Project>
