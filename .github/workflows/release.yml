@@ -1,0 +1,56 @@
+name: Publish to Dockerhub
+
+on:
+  release:
+    types: [published]
+        
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v1
+
+      - name: Build
+        run: dotnet build -c Release
+
+      - name: Test
+        run: dotnet test -c Release --no-build
+
+      - name: Insert Engine into Chassis
+        run: |
+          # pull down chassis from dockerhub
+          docker pull peterkneale/peterkneale.microservices.chassis
+
+          # Remove temp container
+          docker rm -f temp &>/dev/null && echo 'Removed old container'
+
+          # Create a new temp container from the chassis
+          docker create --name temp -t peterkneale.microservices.chassis
+
+          # Copy the service to the service folder in the temp container 
+          docker cp ./bin/Release/net6.0/ temp://service
+
+          # Create a new image from the container’s changes
+          docker commit temp peterkneale/peterkneale.microservices.chassis
+
+          # Remove temp container
+          docker rm -f temp &>/dev/null && echo 'Removed old container'
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/peterkneale.microservices.a:latest
