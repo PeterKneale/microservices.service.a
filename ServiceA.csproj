@@ -25,10 +25,7 @@
         <PackageReference Include="Grpc.AspNetCore.Server" Version="2.49.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\Chassis.Abstractions\Chassis.Abstractions.csproj" />
+        <PackageReference Include="PeterKneale.Microservices.Chassis.Abstractions" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>
