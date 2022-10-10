@@ -36,7 +36,7 @@ jobs:
           docker cp ./bin/Release/net6.0/ temp://service
 
           # Create a new image from the container’s changes
-          docker commit temp peterkneale/peterkneale.microservices.chassis
+          docker commit temp peterkneale/peterkneale.microservices.a
 
           # Remove temp container
           docker rm -f temp &>/dev/null && echo 'Removed old container'
